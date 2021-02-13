@@ -1,0 +1,6 @@
+---
+- import_playbook: preflight_checks.yaml
+- import_playbook: prerequisites.yaml
+- import_playbook: libvirt_resources.yaml
+
+

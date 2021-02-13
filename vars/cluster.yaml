@@ -1,0 +1,5 @@
+cluster_name: k8stest
+cluster_domain: k8stest.lan
+cluster_network:
+  gateway: 10.4.1.1
+  cidr: 10.4.1.0/24

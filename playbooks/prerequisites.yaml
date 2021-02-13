@@ -1,0 +1,13 @@
+---
+- name: Installs tools for VMs provisioning
+  hosts: libvirt_hosts
+  environment:
+    PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
+  roles:
+  - role: terraform
+    become: true
+  - role: terraform_provider_libvirt
+    become: false
+
+
+

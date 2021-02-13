@@ -1,0 +1,6 @@
+- name: Install terraform binary from install.yaml distribution site
+  unarchive:
+    src: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
+    dest: /usr/local/bin/
+    mode: 755
+    remote_src: yes

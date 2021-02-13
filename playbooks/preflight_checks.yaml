@@ -1,0 +1,9 @@
+---
+- name: Ensures prerequisites are satisfied before installing
+  hosts: libvirt_hosts
+  tasks:
+    - name: Check if distribution is supported
+      fail:
+        msg: Your distribution is actually unsupported
+      when:
+        - ansible_distribution != 'Ubuntu'

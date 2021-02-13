@@ -1,0 +1,17 @@
+---
+- name: Setup libvirt resources
+  hosts: libvirt_hosts
+  vars_files:
+    - "../vars/cluster.yaml"
+  tasks:
+    - name: Setup libvirt resources
+      terraform:
+        project_path: "../terraform/libvirt/resources"
+        variables:
+          provider_uri: "{{ terraform_provider_uri }}"
+          cluster_name: "{{ cluster_name }}"
+          libvirt_pool_path: "{{ terraform_libvirt_pool_path }}"
+          domain: "{{ cluster_domain }}"
+          network_cidr: ' ["{{ cluster_network.cidr }}"]'
+        force_init: true
+        state: present

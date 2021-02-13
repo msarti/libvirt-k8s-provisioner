@@ -1,0 +1,10 @@
+terraform_version: 0.14.6
+terraform_provider_libvirt_url: https://github.com/dmacvicar/terraform-provider-libvirt.git
+terraform_provider_libvirt_version: 0.6.3
+terraform_libivrt_provider_folder: ~/.terraform-provider-libvirt
+terraform_libivrt_provider_plugin_dir: ~/.local/share/terraform/plugins/registry.terraform.io/dmacvicar/libvirt/{{ terraform_provider_libvirt_version }}/linux_amd64
+
+gopath: "~/go"
+golang_version: 1.15.8
+terraform_provider_uri: "qemu:///system"
+terraform_libvirt_pool_path: "/mnt/disco2"

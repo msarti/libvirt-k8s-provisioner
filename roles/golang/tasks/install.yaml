@@ -1,0 +1,6 @@
+- name: Download and install golang
+  unarchive:
+    src: "https://golang.org/dl/go{{ golang_version }}.linux-amd64.tar.gz"
+    dest: /usr/local
+    mode: 0755
+    remote_src: yes

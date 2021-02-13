@@ -1,0 +1,21 @@
+- name: Clone libvirt provider sources
+  git:
+    repo: "{{ terraform_provider_libvirt_url }}"
+    dest: "{{ terraform_libivrt_provider_folder }}"
+    force: true
+    version: "v{{ terraform_provider_libvirt_version }}"
+- name: Build the provider binary
+  make:
+    chdir: "{{ terraform_libivrt_provider_folder }}"
+    target: install
+- name: Ensures terraform plugins directory exists
+  file:
+    path: "{{ terraform_libivrt_provider_plugin_dir }}"
+    state: directory
+    mode: 0744
+- name: Deploy plugin locally
+  copy:
+    src: "{{ gopath }}/bin/terraform-provider-libvirt"
+    dest: "{{ terraform_libivrt_provider_plugin_dir }}"
+    remote_src: true
+    mode: 0755
