@@ -1,0 +1,7 @@
+---
+- import_playbook: playbooks/preflight_checks.yaml
+- import_playbook: playbooks/prerequisites.yaml
+- import_playbook: playbooks/libvirt_resources.yaml
+- import_playbook: playbooks/libvirt_node_provisioning.yaml
+
+

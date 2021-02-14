@@ -1,0 +1,20 @@
+- name: Provisioning node VMs
+  hosts: libvirt_hosts
+  vars_files:
+    - ../vars/cluster.yaml
+  tasks:
+    - name: Deploy node VMs with terraform
+      terraform:
+        force_init: true
+        project_path: "../terraform/libvirt/cluster"
+        variables:
+          cloudimage_file: "{{ cloudimage.path }}/{{ cloudimage.filename }}"
+          pool: "{{ cluster_name }}"
+          network_name: "{{ cluster_name }}"
+          masters: "{{ master_nodes|to_json }}"
+          network: "{{ cluster_network.network }}"
+          netmask: "{{ cluster_network.netmask }}"
+          broadcast: "{{ cluster_network.broadcast }}"
+          gateway: "{{ cluster_network.gateway }}"
+          dns_nameservers: "{{ cluster_network.dns_nameservers }}"
+        state: present

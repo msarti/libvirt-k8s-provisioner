@@ -6,6 +6,11 @@ variable "network_cidr" {
   default = ["192.168.100.0/24"]
 }
 variable "domain" {default = "k8s.lan"}
+variable "cloudimage_file" {
+  type = string
+  default = "none"
+}
+
 
 provider "libvirt" {
   uri = var.provider_uri
@@ -40,3 +45,4 @@ resource "libvirt_network" "k8s_network" {
     enabled = true
   }
 }
+

@@ -4,6 +4,11 @@
   vars_files:
     - "../vars/cluster.yaml"
   tasks:
+    - name: Download cloud image
+      get_url:
+        url: "{{ cloudimage.url }}"
+        dest: "{{ cloudimage.path }}/{{ cloudimage.filename }}"
+        force: no
     - name: Setup libvirt resources
       terraform:
         project_path: "../terraform/libvirt/resources"

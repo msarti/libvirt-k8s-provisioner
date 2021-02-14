@@ -3,3 +3,18 @@ cluster_domain: k8stest.lan
 cluster_network:
   gateway: 10.4.1.1
   cidr: 10.4.1.0/24
+  netmask: 255.255.255.0
+  network: 10.4.1.0
+  broadcast: 10.4.1.255
+  dns_nameservers: 8.8.8.8
+cloudimage:
+  url: https://cloud-images.ubuntu.com/focal/20210210/focal-server-cloudimg-amd64.img
+  path: /mnt/disco2/
+  filename: focal-server-cloudimg-amd64.img
+master_nodes:
+  - name: master-01
+    disk_size: 42949672960
+    memory: 2048
+    ip_address: 10.4.2.10
+    vcpu: 2
+    network_iface: ens3
