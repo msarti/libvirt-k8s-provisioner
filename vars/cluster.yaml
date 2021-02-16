@@ -18,3 +18,11 @@ master_nodes:
     ip_address: 10.4.2.10
     vcpu: 2
     network_iface: ens3
+
+worker_nodes:
+  - name: worker-01
+    disk_size: 42949672960
+    memory: 2048
+    ip_address: 10.4.2.20
+    vcpu: 2
+    network_iface: ens3

@@ -12,6 +12,7 @@
           pool: "{{ cluster_name }}"
           network_name: "{{ cluster_name }}"
           masters: "{{ master_nodes|to_json }}"
+          workers: "{{ worker_nodes|to_json }}"
           network: "{{ cluster_network.network }}"
           netmask: "{{ cluster_network.netmask }}"
           broadcast: "{{ cluster_network.broadcast }}"

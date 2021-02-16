@@ -28,6 +28,21 @@ variable "masters" {
   )
   default = []
 }
+variable "workers" {
+  type = list(
+    object(
+      {
+        name = string
+        disk_size = number
+        memory = string
+        ip_address = string
+        vcpu = string
+        network_iface = string
+      }
+    )
+  )
+  default = []
+}
 
 
 provider "libvirt" {
@@ -104,6 +119,66 @@ console {
  }
 disk {
    volume_id = libvirt_volume.master[count.index].id
+ }
+graphics {
+   type = "spice"
+   listen_type = "address"
+   autoport = true
+ }
+}
+
+
+resource "libvirt_volume" "worker" {
+  name           = "${var.workers[count.index].name}.qcow2"
+  base_volume_id = libvirt_volume.base_volume.id
+  size = var.workers[count.index].disk_size
+  count = length(var.workers)
+  pool = var.pool
+}
+
+data "template_file" "worker_meta_data" {
+ count = length(var.workers)
+ template = file("${path.module}/network_config.cfg")
+ vars = {
+   ip_address = var.workers[count.index].ip_address
+   netmask = var.netmask
+   network = var.network
+   broadcast = var.broadcast
+   gateway = var.gateway
+   dns_nameservers = var.dns_nameservers
+   network_iface = var.workers[count.index].network_iface
+ }
+}
+
+resource "libvirt_cloudinit_disk" "worker_commoninit" {
+ count = length(var.workers)
+ name = "${var.workers[count.index].name}-commoninit.iso"
+ pool = var.pool
+ user_data = data.template_file.user_data.rendered
+ meta_data = data.template_file.worker_meta_data[count.index].rendered
+}
+
+resource "libvirt_domain" "kube-worker" {
+   count = length(var.workers)
+
+  name  = "worker_${count.index}"
+  memory = var.workers[count.index].memory
+   vcpu = var.workers[count.index].vcpu
+   cloudinit = libvirt_cloudinit_disk.worker_commoninit[count.index].id
+   dynamic "network_interface" {
+     for_each = var.network_name != null ? [1] : []
+     content {
+        network_name = var.network_name
+     }
+   }
+
+console {
+   type = "pty"
+   target_type = "serial"
+   target_port = "0"
+ }
+disk {
+   volume_id = libvirt_volume.worker[count.index].id
  }
 graphics {
    type = "spice"
